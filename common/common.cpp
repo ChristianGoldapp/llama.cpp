@@ -488,6 +488,18 @@ std::string string_strip(const std::string & str) {
     return str.substr(start, end - start);
 }
 
+std::string string_strip_quoted(const std::string & str){
+    size_t start = 0;
+    size_t end = str.size();
+    while (start < end && (std::isspace(str[start]) || str[start] == '\'' || str[start] == '"')) {
+        start++;
+    }
+    while (end > start &&  (std::isspace(str[end - 1]) || str[end - 1] == '\'' || str[end - 1] == '"')) {
+        end--;
+    }
+    return str.substr(start, end - start);
+}
+
 std::string string_lcs(std::string_view a, std::string_view b) {
     if (a.empty() || b.empty()) return {};
 

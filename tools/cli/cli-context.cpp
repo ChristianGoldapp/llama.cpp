@@ -544,7 +544,7 @@ int cli_context::run() {
                 (string_starts_with(buffer, "/video ") && has_video)) {
             std::string type = buffer.substr(1, 5);
             // just in case (bad copy-paste for example), we strip all trailing/leading spaces
-            std::string fname = string_strip(buffer.substr(7));
+            std::string fname = string_strip_quoted(buffer.substr(7));
             if (!stage_media_file(fname, type)) {
                 ui::show_error(string_format("file does not exist or cannot be opened: '%s'", fname.c_str()));
                 continue;
@@ -553,7 +553,7 @@ int cli_context::run() {
             write_output_file(string_format("User: Added media: %s\n", fname.c_str()));
             continue;
         } else if (string_starts_with(buffer, "/read ")) {
-            std::string fname = string_strip(buffer.substr(6));
+            std::string fname = string_strip_quoted(buffer.substr(6));
             add_text_file(fname);
             write_output_file(string_format("User: Added text file: %s\n", fname.c_str()));
             continue;
@@ -561,7 +561,7 @@ int cli_context::run() {
             std::error_code ec;
             size_t count = 0;
             auto curdir = std::filesystem::current_path();
-            std::string pattern = string_strip(buffer.substr(6));
+            std::string pattern = string_strip_quoted(buffer.substr(6));
             std::filesystem::path rel_path;
 
             auto startglob = pattern.find_first_of("![*?");
